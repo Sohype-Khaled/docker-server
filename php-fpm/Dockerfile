@@ -26,15 +26,25 @@ RUN set -xe; \
 COPY ./laravel.ini /usr/local/etc/php/conf.d
 COPY ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
+USER root
 # Clean up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    rm /var/log/lastlog /var/log/faillog && \
-    usermod -u 1000 www-data
+    rm /var/log/lastlog /var/log/faillog
 
-ADD ./startup.sh /opt/startup.sh
+# Configure non-root user.
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+RUN groupmod -o -g ${PGID} www-data && \
+    usermod -o -u ${PUID} -g www-data www-data
 
-RUN sed -i 's/\r//g' /opt/startup.sh
-CMD ["/bin/bash","/opt/startup.sh"]
+WORKDIR /var/www
+
+
+
+CMD ["php-fpm"]
+
 
 EXPOSE 9000
