@@ -40,18 +40,8 @@ ENV PGID ${PGID}
 RUN groupmod -o -g ${PGID} www-data && \
     usermod -o -u ${PUID} -g www-data www-data
 
-<<<<<<< HEAD
 WORKDIR /var/www
-
-
 
 CMD ["php-fpm"]
 
-
-=======
-RUN sed -i 's/\r//g' /opt/startup.sh
-CMD ["/bin/bash","/opt/startup.sh"]
-RUN chown -R www-data:www-data /var/www
-
->>>>>>> 6f4559a31ddea3235f5b6755acb5e30801a20d0f
 EXPOSE 9000
