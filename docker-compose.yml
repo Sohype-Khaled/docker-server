@@ -24,6 +24,11 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+<<<<<<< HEAD
+=======
+#      ports:
+#        - "${MYSQL_PORT}:3306"
+>>>>>>> 6f4559a31ddea3235f5b6755acb5e30801a20d0f
       networks:
         - backend
 
