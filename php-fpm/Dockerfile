@@ -11,9 +11,14 @@ RUN set -xe; \
     libzip-dev \
     zip \
     libxslt-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
     unzip && \
+    docker-php-ext-install -j$(nproc) gd && \
     docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-install pdo_mysql zip xsl pcntl exif && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-install pdo_mysql zip xsl pcntl intl gd exif && \
     curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
